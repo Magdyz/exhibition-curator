@@ -1,17 +1,56 @@
-export default async function Page() {
-  let data = await fetch(
-    "https://api.harvardartmuseums.org/exhibition?apikey=597a9e93-1323-42d0-b7cc-3e17260c9d6d"
-  );
-  let posts = await data.json();
-  let records = posts.records;
+"use client";
+
+import { useState, useEffect } from "react";
+import { fetchHarvardArt } from "@/utils/api";
+
+export default function Page() {
+  const [artworks, setArtworks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+
+    /// Fetch artwork data from Harvard API
+
+    const fetchData = async () => {
+      try {
+        const data = await fetchHarvardArt("monet"); // For testing trying a search term
+        setArtworks(data);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch artworks");
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
-    <ul>
-      {records.map((post) => (
-        <div>
-          <h3 key={post.title}>{post.title}</h3>
-          <h4 key={post.url}>{post.url}</h4>
-        </div>
-      ))}
-    </ul>
+    <div>
+      <h1>Harvard Artworks</h1>
+      {artworks.length > 0 ? (
+        artworks.map((artwork, index) => (
+          <div key={index}>
+            <img
+              src={artwork.image}
+              alt={artwork.title}
+              style={{ width: "200px" }}
+            />
+            <h3>{artwork.title}</h3>
+            <p>{artwork.artist}</p>
+          </div>
+        ))
+      ) : (
+        <p>No artworks found.</p>
+      )}
+    </div>
   );
 }
