@@ -1,30 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import {
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-  Snackbar,
-  Alert,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-} from "@mui/material"; // Import table-related components
-import ArtCard from "@/components/ArtCard";
+import { useState, useEffect } from "react";
+import { Container, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {
   handleSearch,
   handleSelectArtwork,
   handleRemoveArtwork,
-} from "@/controllers/exhibitionController"; // controller functions
+  handleFilterAndSort,
+} from "@/controllers/exhibitionController";
+import FilterBar from "@/components/FilterBar";
+import ExhibitionTable from "@/components/ExhibitionTable";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ArtworksGrid from "@/components/ArtworksGrid";
+import SnackbarNotification from "@/components/SnackbarNotification";
 
 const SearchBar = dynamic(() => import("@/components/SearchBar"), {
   ssr: false,
@@ -32,57 +21,94 @@ const SearchBar = dynamic(() => import("@/components/SearchBar"), {
 
 export default function Page() {
   const [artworks, setArtworks] = useState([]);
-  const [selectedArtworks, setSelectedArtworks] = useState([]);
+  const [searchResults, setSearchResults] = useState([]); // Store search results here
+  const [selectedArtworks, setSelectedArtworks] = useState(() => {
+    // Load selected artworks from sessionStorage or initialize as empty array
+    const savedArtworks = sessionStorage.getItem("selectedArtworks");
+    return savedArtworks ? JSON.parse(savedArtworks) : [];
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [introMessage, setIntroMessage] = useState("");
+  const [filter, setFilter] = useState(""); // For filter (Harvard or Rijks)
+  const [sortOrder, setSortOrder] = useState("asc"); // For sort (ascending or descending)
+
+  // Effect to load selected artworks from sessionStorage on the client side
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedArtworks = sessionStorage.getItem("selectedArtworks");
+      if (savedArtworks) {
+        setSelectedArtworks(JSON.parse(savedArtworks));
+      }
+    }
+  }, []);
+
+  // Effect to save selected artworks to sessionStorage whenever they change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(
+        "selectedArtworks",
+        JSON.stringify(selectedArtworks)
+      );
+    }
+  }, [selectedArtworks]);
+
+  // Handle Search
+  const handleSearchArtworks = async (searchTerm) => {
+    await handleSearch(
+      searchTerm,
+      setSearchResults, // Store results in searchResults
+      setError,
+      setLoading,
+      setIntroMessage
+    );
+    setArtworks([]); // Clear artworks when a new search is performed
+  };
+
+  // Handle Filter and Sort Change
+  const handleFilterSortChange = () => {
+    handleFilterAndSort(searchResults, filter, sortOrder, setArtworks);
+  };
+
+  // Effect to handle sorting whenever the filter or sortOrder changes
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      handleFilterSortChange();
+    }
+  }, [filter, sortOrder, searchResults]);
 
   return (
     <Container>
-      <SearchBar
-        onSearch={(searchTerm) =>
-          handleSearch(
-            searchTerm,
-            setArtworks,
-            setError,
-            setLoading,
-            setIntroMessage
-          )
-        }
+      <SearchBar onSearch={handleSearchArtworks} />
+
+      <FilterBar
+        filter={filter}
+        setFilter={setFilter}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+        searchResults={searchResults}
+        setArtworks={setArtworks}
+        handleFilterSortChange={handleFilterSortChange}
       />
 
       {loading ? (
-        <CircularProgress />
+        <LoadingSpinner />
       ) : error ? (
         <Typography variant="h6" color="error">
           {error}
         </Typography>
       ) : (
-        <Grid container spacing={3}>
-          {artworks.length > 0 ? (
-            artworks.map((artwork, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <ArtCard
-                  artwork={artwork}
-                  onSelect={() =>
-                    handleSelectArtwork(
-                      artwork,
-                      selectedArtworks,
-                      setSelectedArtworks,
-                      setSnackbarMessage,
-                      setShowSnackbar
-                    )
-                  }
-                  selectedArtworks={selectedArtworks}
-                />
-              </Grid>
-            ))
-          ) : (
-            <Typography variant="body1">{introMessage}</Typography>
-          )}
-        </Grid>
+        <ArtworksGrid
+          artworks={artworks}
+          selectedArtworks={selectedArtworks}
+          setSelectedArtworks={setSelectedArtworks}
+          handleSelectArtwork={handleSelectArtwork}
+          setSnackbarMessage={setSnackbarMessage}
+          setShowSnackbar={setShowSnackbar}
+          introMessage={introMessage}
+        />
       )}
 
       {selectedArtworks.length > 0 && (
@@ -90,74 +116,22 @@ export default function Page() {
           <Typography variant="h4" gutterBottom>
             Your Exhibition
           </Typography>
-          {/* Responsive Table for the Exhibition List */}
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>#</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell align="center">Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {selectedArtworks.map((artwork, index) => (
-                  <TableRow key={artwork.url}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{artwork.title}</TableCell>
-                    <TableCell align="center">
-                      <Button
-                        href={artwork.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="outlined"
-                        color="primary"
-                        style={{
-                          marginLeft: "10px",
-                          textTransform: "none",
-                          borderRadius: "20px", // Rounded button
-                          padding: "5px 15px",
-                        }}
-                      >
-                        View More
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          handleRemoveArtwork(
-                            artwork,
-                            selectedArtworks,
-                            setSelectedArtworks,
-                            setSnackbarMessage,
-                            setShowSnackbar
-                          )
-                        }
-                        color="error"
-                        startIcon={<DeleteIcon />}
-                      >
-                        Remove
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+
+          <ExhibitionTable
+            selectedArtworks={selectedArtworks}
+            handleRemoveArtwork={handleRemoveArtwork}
+            setSnackbarMessage={setSnackbarMessage}
+            setShowSnackbar={setShowSnackbar}
+            setSelectedArtworks={setSelectedArtworks}
+          />
         </div>
       )}
 
-      <Snackbar
-        open={showSnackbar}
-        autoHideDuration={3000}
-        onClose={() => setShowSnackbar(false)}
-      >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <SnackbarNotification
+        showSnackbar={showSnackbar}
+        setShowSnackbar={setShowSnackbar}
+        snackbarMessage={snackbarMessage}
+      />
     </Container>
   );
 }

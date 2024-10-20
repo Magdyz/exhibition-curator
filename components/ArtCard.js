@@ -59,9 +59,6 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
         <Typography variant="body2" color="text.secondary">
           Artist: {artwork.artist}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Century: {artwork.century}
-        </Typography>
 
         <Button
           onClick={handleAddToExhibition}
