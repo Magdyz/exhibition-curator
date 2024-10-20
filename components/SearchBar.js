@@ -4,7 +4,7 @@ const { useState } = require("react");
 const { TextField, Button } = require("@mui/material");
 const { styled } = require("@mui/system");
 
-// Styled container for the search bar
+// Styling for the search bar
 const SearchContainer = styled("div")({
   display: "flex",
   justifyContent: "center",
@@ -14,12 +14,12 @@ const SearchContainer = styled("div")({
   width: "100%", // Make it responsive
 });
 
-// Styled TextField for a minimalistic look
+// Styling for TextField
 const StyledTextField = styled(TextField)({
   flex: 1,
   marginRight: "10px", // Space between the input and button
   "& .MuiOutlinedInput-root": {
-    borderRadius: "24px", // Rounded corners
+    borderRadius: "24px",
     "& fieldset": {
       borderColor: "#ccc", // Light border color
     },
@@ -34,7 +34,7 @@ const StyledTextField = styled(TextField)({
 
 // Styled Button
 const StyledButton = styled(Button)({
-  borderRadius: "24px", // Rounded corners for the button
+  borderRadius: "24px", 
   textTransform: "none", // Prevent uppercase transformation
 });
 
@@ -50,9 +50,9 @@ function SearchBar({ onSearch }) {
       <StyledTextField
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search Artworks" // Placeholder instead of label
+        placeholder="Search Artworks" 
         variant="outlined"
-        size="medium" // Set size for consistency
+        size="medium" 
       />
       <StyledButton onClick={handleSearch} variant="contained" color="primary">
         Search

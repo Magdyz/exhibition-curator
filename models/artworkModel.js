@@ -1,12 +1,11 @@
-// Searching Harvard museum artworks
-
-export const fetchHarvardArt = async (query) => {
-  console.log(process);
+export const getHarvardArt = async (query) => {
   const apiKey = process.env.NEXT_PUBLIC_HARVARD_API_KEY;
   const res = await fetch(
     `https://api.harvardartmuseums.org/object?apikey=${apiKey}&q=${query}`
   );
   const data = await res.json();
+
+  // Map through the records and return a data structure
   return data.records.map((art) => ({
     title: art.title,
     artist: art.people ? art.people[0].name : "Unknown",
@@ -18,8 +17,7 @@ export const fetchHarvardArt = async (query) => {
   }));
 };
 
-// Fetch Rijksmuseum Art API
-export const fetchRijksmuseumArt = async (query) => {
+export const getRijksmuseumArt = async (query) => {
   const apiKey = process.env.NEXT_PUBLIC_RIJKS_API_KEY;
   const res = await fetch(
     `https://www.rijksmuseum.nl/api/en/collection?key=${apiKey}&q=${query}&imgonly=true`

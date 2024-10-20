@@ -1,20 +1,34 @@
-"use client"; // This ensures it's a client component
+"use client";
 
 import { useState } from "react";
-import { CircularProgress, Container, Grid, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  Container,
+  Grid,
+  Typography,
+  Snackbar,
+  Alert,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from "@mui/material"; // Import table-related components
 import ArtCard from "@/components/ArtCard";
-import dynamic from "next/dynamic"; // Import dynamic for client-side components
-import { fetchHarvardArt, fetchRijksmuseumArt } from "@/utils/api";
+import dynamic from "next/dynamic";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
+import {
+  handleSearch,
+  handleSelectArtwork,
+  handleRemoveArtwork,
+} from "@/controllers/exhibitionController"; // controller functions
 
-// Import SearchBar with server side rendering disabled
 const SearchBar = dynamic(() => import("@/components/SearchBar"), {
   ssr: false,
 });
-
-// main function
 
 export default function Page() {
   const [artworks, setArtworks] = useState([]);
@@ -25,55 +39,20 @@ export default function Page() {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [introMessage, setIntroMessage] = useState("");
 
-  // Handle search across both APIs // !! needs some more error handling !!
-  const handleSearch = async (searchTerm) => {
-    setLoading(true);
-    setError(null);
-    setIntroMessage("");
-    try {
-      // Fetch data from both APIs
-      const [harvardData, rijksmuseumData] = await Promise.all([
-        fetchHarvardArt(searchTerm),
-        fetchRijksmuseumArt(searchTerm),
-      ]);
-
-      // Combine results from both APIs
-      setArtworks([...harvardData, ...rijksmuseumData]);
-    } catch (err) {
-      setIntroMessage("No artworks found. Please try a different search term.");
-      setError("Failed to fetch artworks");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Function to handle selected artworks and add them to the exhibition list
-  const handleSelectArtwork = (artwork) => {
-    setSelectedArtworks((prevSelected) => {
-      if (prevSelected.some((selected) => selected.url === artwork.url)) {
-        return prevSelected; // No change if the artwork is already in the list
-      }
-      setSnackbarMessage("Artwork added to the exhibition!");
-      setShowSnackbar(true);
-      return [...prevSelected, artwork];
-    });
-  };
-
-  // Function to remove an artwork from the exhibition list
-  const handleRemoveArtwork = (artworkToRemove) => {
-    setSelectedArtworks((prevSelected) =>
-      prevSelected.filter((artwork) => artwork.url !== artworkToRemove.url)
-    );
-    setSnackbarMessage("Artwork removed from the exhibition!");
-    setShowSnackbar(true);
-  };
-
   return (
     <Container>
-      {/* Search Bar */}
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar
+        onSearch={(searchTerm) =>
+          handleSearch(
+            searchTerm,
+            setArtworks,
+            setError,
+            setLoading,
+            setIntroMessage
+          )
+        }
+      />
 
-      {/* Loading or Error Handling */}
       {loading ? (
         <CircularProgress />
       ) : error ? (
@@ -81,14 +60,21 @@ export default function Page() {
           {error}
         </Typography>
       ) : (
-        // Display artworks as cards
         <Grid container spacing={3}>
           {artworks.length > 0 ? (
             artworks.map((artwork, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <ArtCard
                   artwork={artwork}
-                  onSelect={() => handleSelectArtwork(artwork)}
+                  onSelect={() =>
+                    handleSelectArtwork(
+                      artwork,
+                      selectedArtworks,
+                      setSelectedArtworks,
+                      setSnackbarMessage,
+                      setShowSnackbar
+                    )
+                  }
                   selectedArtworks={selectedArtworks}
                 />
               </Grid>
@@ -99,41 +85,66 @@ export default function Page() {
         </Grid>
       )}
 
-      {/* Display Selected Artworks (Exhibition List) */}
       {selectedArtworks.length > 0 && (
         <div style={{ marginTop: "30px" }}>
           <Typography variant="h4" gutterBottom>
             Your Exhibition
           </Typography>
-          <Grid container spacing={3}>
-            {selectedArtworks.map((artwork, index) => (
-              <Grid
-                item
-                xs={12}
-                key={artwork.url}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography variant="h6">
-                  {index + 1}. {artwork.title}
-                </Typography>
-                <DeleteIcon
-                  onClick={() => handleRemoveArtwork(artwork)}
-                  style={{ cursor: "pointer", color: "red" }}
-                />
-                <a href={artwork.url} target="_blank" rel="noopener noreferrer">
-                  View More
-                </a>
-              </Grid>
-            ))}
-          </Grid>
+          {/* Responsive Table for the Exhibition List */}
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>#</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell align="center">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {selectedArtworks.map((artwork, index) => (
+                  <TableRow key={artwork.url}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{artwork.title}</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        href={artwork.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        variant="outlined"
+                        color="primary"
+                        style={{
+                          marginLeft: "10px",
+                          textTransform: "none",
+                          borderRadius: "20px", // Rounded button
+                          padding: "5px 15px",
+                        }}
+                      >
+                        View More
+                      </Button>
+                      <Button
+                        onClick={() =>
+                          handleRemoveArtwork(
+                            artwork,
+                            selectedArtworks,
+                            setSelectedArtworks,
+                            setSnackbarMessage,
+                            setShowSnackbar
+                          )
+                        }
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                      >
+                        Remove
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       )}
 
-      {/* Popup Snackbar for feedback */}
       <Snackbar
         open={showSnackbar}
         autoHideDuration={3000}

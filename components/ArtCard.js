@@ -19,7 +19,7 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
 
   const handleAddToExhibition = () => {
     try {
-      if (selectedArtworks.some((selected) => selected.id === artwork.id)) {
+      if (selectedArtworks.some((selected) => selected.url === artwork.url)) {
         throw new Error("Artwork already in the exhibition list");
       } else {
         onSelect();
@@ -48,7 +48,7 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
         <CardMedia
           component="img"
           height="200"
-          image="/placeholder.jpg" // Placeholder image if no image is available
+          image="https://harvardartmuseums.org/assets/images/no_image.png" // Placeholder image if no image is available
           alt="No Image Available"
         />
       )}
