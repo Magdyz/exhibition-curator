@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Custom500 from "../../app/500/page";
+import Custom500 from "../../app/500-page";
 
 describe("500 Page", () => {
   it("renders 500 error message", () => {

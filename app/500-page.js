@@ -1,4 +1,3 @@
-// pages/500.js
 import { Container, Typography, Button } from "@mui/material";
 import Link from "next/link";
 
