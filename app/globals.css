@@ -48,7 +48,7 @@ a {
 .component {
   margin: 20px 0; /* Adds vertical margin between components */
   width: 100%; /* Ensures components take full width */
-  max-width: 800px; /* Optional: Limits the max width for readability */
+  max-width: 800px; /* Limits the max width for readability */
 }
 
 @media (prefers-color-scheme: dark) {

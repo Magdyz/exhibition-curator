@@ -21,21 +21,17 @@ const SearchBar = dynamic(() => import("@/components/SearchBar"), {
 
 export default function Page() {
   const [artworks, setArtworks] = useState([]);
-  const [searchResults, setSearchResults] = useState([]); // Store search results here
-  const [selectedArtworks, setSelectedArtworks] = useState(() => {
-    // Load selected artworks from sessionStorage or initialize as empty array
-    const savedArtworks = sessionStorage.getItem("selectedArtworks");
-    return savedArtworks ? JSON.parse(savedArtworks) : [];
-  });
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedArtworks, setSelectedArtworks] = useState([]); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [introMessage, setIntroMessage] = useState("");
-  const [filter, setFilter] = useState(""); // For filter (Harvard or Rijks)
-  const [sortOrder, setSortOrder] = useState("asc"); // For sort (ascending or descending)
+  const [filter, setFilter] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  // Effect to load selected artworks from sessionStorage on the client side
+  // Load selected artworks from sessionStorage on the client side
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedArtworks = sessionStorage.getItem("selectedArtworks");
@@ -45,9 +41,9 @@ export default function Page() {
     }
   }, []);
 
-  // Effect to save selected artworks to sessionStorage whenever they change
+  // Save selected artworks to sessionStorage whenever they change
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && selectedArtworks.length > 0) {
       sessionStorage.setItem(
         "selectedArtworks",
         JSON.stringify(selectedArtworks)
@@ -55,24 +51,21 @@ export default function Page() {
     }
   }, [selectedArtworks]);
 
-  // Handle Search
   const handleSearchArtworks = async (searchTerm) => {
     await handleSearch(
       searchTerm,
-      setSearchResults, // Store results in searchResults
+      setSearchResults,
       setError,
       setLoading,
       setIntroMessage
     );
-    setArtworks([]); // Clear artworks when a new search is performed
+    setArtworks([]);
   };
 
-  // Handle Filter and Sort Change
   const handleFilterSortChange = () => {
     handleFilterAndSort(searchResults, filter, sortOrder, setArtworks);
   };
 
-  // Effect to handle sorting whenever the filter or sortOrder changes
   useEffect(() => {
     if (searchResults.length > 0) {
       handleFilterSortChange();
