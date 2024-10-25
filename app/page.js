@@ -1,28 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Container, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
+import TopBanner from "@/components/TopBanner"; // Importing TopBanner component
+import { useState, useEffect } from "react"; // Importing React hooks
+import { Container, Typography } from "@mui/material"; // Importing Material UI components
+import dynamic from "next/dynamic"; // For dynamic imports
 import {
   handleSearch,
   handleSelectArtwork,
   handleRemoveArtwork,
   handleFilterAndSort,
-} from "@/controllers/exhibitionController";
-import FilterBar from "@/components/FilterBar";
-import ExhibitionTable from "@/components/ExhibitionTable";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import ArtworksGrid from "@/components/ArtworksGrid";
-import SnackbarNotification from "@/components/SnackbarNotification";
+} from "@/controllers/exhibitionController"; // Importing controller functions
+import FilterBar from "@/components/FilterBar"; // Importing FilterBar component
+import ExhibitionTable from "@/components/ExhibitionTable"; // Importing ExhibitionTable component
+import LoadingSpinner from "@/components/LoadingSpinner"; // Importing LoadingSpinner component
+import ArtworksGrid from "@/components/ArtworksGrid"; // Importing ArtworksGrid component
+import SnackbarNotification from "@/components/SnackbarNotification"; // Importing SnackbarNotification component
 
+// Dynamically import SearchBar component (Server Side Rendering disabled)
 const SearchBar = dynamic(() => import("@/components/SearchBar"), {
   ssr: false,
 });
 
 export default function Page() {
+  // State variables for managing artworks and UI states
   const [artworks, setArtworks] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedArtworks, setSelectedArtworks] = useState([]); 
+  const [selectedArtworks, setSelectedArtworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -36,7 +39,7 @@ export default function Page() {
     if (typeof window !== "undefined") {
       const savedArtworks = sessionStorage.getItem("selectedArtworks");
       if (savedArtworks) {
-        setSelectedArtworks(JSON.parse(savedArtworks));
+        setSelectedArtworks(JSON.parse(savedArtworks)); // Parse and set saved artworks
       }
     }
   }, []);
@@ -46,11 +49,12 @@ export default function Page() {
     if (typeof window !== "undefined" && selectedArtworks.length > 0) {
       sessionStorage.setItem(
         "selectedArtworks",
-        JSON.stringify(selectedArtworks)
+        JSON.stringify(selectedArtworks) // Convert selected artworks to JSON string
       );
     }
   }, [selectedArtworks]);
 
+  // Function to handle artwork search
   const handleSearchArtworks = async (searchTerm) => {
     await handleSearch(
       searchTerm,
@@ -59,13 +63,15 @@ export default function Page() {
       setLoading,
       setIntroMessage
     );
-    setArtworks([]);
+    setArtworks([]); // Clear artworks after search
   };
 
+  // Function to handle filtering and sorting of artworks
   const handleFilterSortChange = () => {
     handleFilterAndSort(searchResults, filter, sortOrder, setArtworks);
   };
 
+  // Effect to filter and sort artworks whenever filter or sortOrder changes
   useEffect(() => {
     if (searchResults.length > 0) {
       handleFilterSortChange();
@@ -74,23 +80,34 @@ export default function Page() {
 
   return (
     <Container>
-      <SearchBar onSearch={handleSearchArtworks} />
-
-      <FilterBar
-        filter={filter}
-        setFilter={setFilter}
-        sortOrder={sortOrder}
-        setSortOrder={setSortOrder}
-        searchResults={searchResults}
-        setArtworks={setArtworks}
-        handleFilterSortChange={handleFilterSortChange}
-      />
-
-      {loading ? (
-        <LoadingSpinner />
-      ) : error ? (
+      <TopBanner selectedArtworks={selectedArtworks} />{" "}
+      {/* Display top banner */}
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "80vh",
+        }}
+      >
+        <SearchBar onSearch={handleSearchArtworks} />{" "}
+        {/* Search bar for user input */}
+        <FilterBar
+          filter={filter}
+          setFilter={setFilter}
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+          searchResults={searchResults}
+          setArtworks={setArtworks}
+          handleFilterSortChange={handleFilterSortChange}
+        />
+      </Container>
+      {loading ? ( // Conditional rendering based on loading state
+        <LoadingSpinner /> // Show loading spinner
+      ) : error ? ( // Check for error
         <Typography variant="h6" color="error">
-          {error}
+          {error} 
         </Typography>
       ) : (
         <ArtworksGrid
@@ -103,9 +120,8 @@ export default function Page() {
           introMessage={introMessage}
         />
       )}
-
-      {selectedArtworks.length > 0 && (
-        <div style={{ marginTop: "30px" }}>
+      {selectedArtworks.length > 0 && ( // Display exhibition if there are selected artworks
+        <div id="yourExhibition" style={{ marginTop: "30px" }}>
           <Typography variant="h4" gutterBottom>
             Your Exhibition
           </Typography>
@@ -119,7 +135,6 @@ export default function Page() {
           />
         </div>
       )}
-
       <SnackbarNotification
         showSnackbar={showSnackbar}
         setShowSnackbar={setShowSnackbar}

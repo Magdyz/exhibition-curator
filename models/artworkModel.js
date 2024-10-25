@@ -1,4 +1,8 @@
-// Harvard API
+// Using Winston library in logger to log errors 
+const logger =
+  typeof window === "undefined" ? require("@/utils/logger").default : null;
+
+// Harvard API call
 export const getHarvardArt = async (query) => {
   const apiKey = process.env.NEXT_PUBLIC_HARVARD_API_KEY;
   try {
@@ -6,7 +10,7 @@ export const getHarvardArt = async (query) => {
       `https://api.harvardartmuseums.org/object?apikey=${apiKey}&q=${query}`
     );
 
-    // Handle specific error status codes
+    // Handle error status codes
     if (res.status === 404) {
       throw new Error(
         "404: No artworks found for this query in Harvard Museum."
@@ -33,8 +37,13 @@ export const getHarvardArt = async (query) => {
       source: "Harvard",
     }));
   } catch (error) {
-    console.error("Error fetching Harvard Artworks:", error.message);
-    throw error; // Rethrow error to be caught by the controller
+    if (logger) {
+      logger.error("Error fetching Harvard Artworks:", {
+        message: error.message,
+        stack: error.stack,
+      });
+    }
+    throw error;
   }
 };
 
@@ -68,7 +77,10 @@ export const getRijksmuseumArt = async (query) => {
       url: `https://www.rijksmuseum.nl/en/collection/${artObject.objectNumber}`,
     }));
   } catch (error) {
-    console.error("Error fetching Rijksmuseum Artworks:", error.message);
+    logger.error("Error fetching Harvard Artworks:", {
+      message: error.message,
+      stack: error.stack,
+    });
     throw error; // Rethrow error to be caught by the controller
   }
 };

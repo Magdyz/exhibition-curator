@@ -4,20 +4,24 @@ const { useState } = require("react");
 const { TextField, Button } = require("@mui/material");
 const { styled } = require("@mui/system");
 
-// Styling for the search bar
+// Styling for the search bar container
+
 const SearchContainer = styled("div")({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  margin: "20px auto",
-  maxWidth: "800px",
-  width: "100%",
+  margin: "10px auto",
+  maxWidth: "600px",
+  width: "90%",
+  flexDirection: "column",
+  gap: "10px",
 });
 
-// Styling for TextField
+// Styling for TextField with white background
 const StyledTextField = styled(TextField)({
   flex: 1,
-  marginRight: "10px",
+  width: "100%",
+  backgroundColor: "#ffffff",
   "& .MuiOutlinedInput-root": {
     borderRadius: "24px",
     "& fieldset": {
@@ -30,12 +34,21 @@ const StyledTextField = styled(TextField)({
       borderColor: "#6200ea",
     },
   },
+  "& input": {
+    color: "#000",
+  },
+  "& ::placeholder": {
+    color: "#999",
+    opacity: 1,
+  },
 });
 
 // Styled Button
 const StyledButton = styled(Button)({
   borderRadius: "24px",
   textTransform: "none",
+  padding: "8px 16px",
+  width: "100%",
 });
 
 function SearchBar({ onSearch }) {

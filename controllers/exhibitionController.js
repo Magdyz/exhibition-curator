@@ -1,4 +1,7 @@
 import { getHarvardArt, getRijksmuseumArt } from "@/models/artworkModel";
+// Using Winston library in logger for errors
+const logger =
+  typeof window === "undefined" ? require("@/utils/logger").default : null;
 
 // Handle search across both APIs
 export const handleSearch = async (
@@ -16,7 +19,7 @@ export const handleSearch = async (
       getHarvardArt(searchTerm),
       getRijksmuseumArt(searchTerm),
     ]);
-
+// A combined list of artworks from API
     const combinedData = [...harvardData, ...rijksmuseumData];
 
     if (combinedData.length === 0) {
@@ -25,14 +28,19 @@ export const handleSearch = async (
 
     setArtworks(combinedData);
   } catch (err) {
-    console.error("Error in handleSearch:", err.message);
+    if (logger) {
+      logger.error("Error in handleSearch:", {
+        message: err.message,
+        stack: err.stack,
+      });
+    }
 
     // Error Handling
 
     if (err.message.includes("404")) {
-      setError(err.message); 
+      setError(err.message);
     } else if (err.message.includes("500")) {
-      setError("Server error occurred. Please try again later."); 
+      setError("Server error occurred. Please try again later.");
     } else {
       setError("No artworks found. Please try a different search term.");
     }
@@ -51,7 +59,7 @@ export const handleFilterAndSort = (
 ) => {
   let filteredArtworks = [...artworks];
 
-  // Filter by source (Harvard or Rijksmuseum)
+// Filter by source (Harvard or Rijksmuseum)
   if (filter === "harvard") {
     filteredArtworks = filteredArtworks.filter(
       (artwork) => artwork.source === "Harvard"
@@ -62,7 +70,7 @@ export const handleFilterAndSort = (
     );
   }
 
-  // Sort by name (ascending or descending)
+// Sort by name (ascending or descending)
   filteredArtworks.sort((a, b) => {
     if (sortOrder === "asc") {
       return a.title.localeCompare(b.title);
@@ -74,6 +82,7 @@ export const handleFilterAndSort = (
   setArtworks(filteredArtworks);
 };
 
+// Adding artwork to Your Exhibition and display a message
 export const handleSelectArtwork = (
   artwork,
   selectedArtworks,
@@ -92,6 +101,7 @@ export const handleSelectArtwork = (
   });
 };
 
+// Remove artwork function and display a message
 export const handleRemoveArtwork = (
   artworkToRemove,
   selectedArtworks,
