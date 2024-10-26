@@ -29,9 +29,11 @@ Node.js (version 14+)
 npm or yarn
 Clone the Repository
 
-```git clone https://github.com/yourusername/virtual-exhibition.git
+```
+git clone https://github.com/yourusername/virtual-exhibition.git
 cd virtual-exhibition
-Install Dependencies```
+Install Dependencies
+```
 
 ```npm install```
 # or
@@ -41,8 +43,10 @@ Install Dependencies```
 
 Create a .env.local file in the root directory and add your API keys:
 
-```NEXT_PUBLIC_HARVARD_API_KEY=your_harvard_api_key
-NEXT_PUBLIC_RIJKS_API_KEY=your_rijksmuseum_api_key```
+```
+NEXT_PUBLIC_HARVARD_API_KEY=your_harvard_api_key
+NEXT_PUBLIC_RIJKS_API_KEY=your_rijksmuseum_api_key
+```
 
 
 Running Locally
