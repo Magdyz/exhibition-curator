@@ -8,8 +8,8 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"; // Optional: if you want to use this icon in alerts
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"; 
 
 export default function TopBanner({ selectedArtworks }) {
   const [artworkCount, setArtworkCount] = useState(0);
@@ -65,7 +65,7 @@ export default function TopBanner({ selectedArtworks }) {
           }}
         >
           <Badge badgeContent={artworkCount} color="secondary">
-            <ShoppingBasketIcon />
+            <LibraryBooksIcon />
           </Badge>
         </IconButton>
       </Toolbar>
