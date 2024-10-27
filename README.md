@@ -32,8 +32,8 @@ Clone the Repository
 ```
 git clone https://github.com/yourusername/virtual-exhibition.git
 cd virtual-exhibition
-Install Dependencies
 ```
+### Install Dependencies
 
 ```npm install```
 # or
@@ -57,7 +57,7 @@ Running Locally
 
 Access the application at http://localhost:3000.
 
-###Building for Production
+### Building for Production
 
 `npm run build`
 # or
