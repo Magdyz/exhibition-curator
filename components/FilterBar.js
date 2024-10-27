@@ -26,6 +26,7 @@ function FilterBar({
               }
             }}
             label="Filter by Source"
+            style={{ backgroundColor: "white" }}
           >
             <MenuItem value="">All</MenuItem>
             <MenuItem value="harvard">Harvard</MenuItem>
@@ -42,6 +43,7 @@ function FilterBar({
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
             label="Sort by Name"
+            style={{ backgroundColor: "white" }}
           >
             <MenuItem value="asc">Ascending (A-Z)</MenuItem>
             <MenuItem value="desc">Descending (Z-A)</MenuItem>
