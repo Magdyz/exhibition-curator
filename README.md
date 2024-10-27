@@ -30,8 +30,8 @@ npm or yarn
 Clone the Repository
 
 ```
-git clone https://github.com/yourusername/virtual-exhibition.git
-cd virtual-exhibition
+git clone https://github.com/Magdyz/exhibition-curator.git
+cd exhibition-curator
 ```
 ### Install Dependencies
 
