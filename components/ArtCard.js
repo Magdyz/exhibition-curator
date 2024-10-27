@@ -60,23 +60,32 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
           Artist: {artwork.artist}
         </Typography>
 
-        <Button
-          onClick={handleAddToExhibition}
-          variant="contained"
-          color="primary"
-          sx={{ marginTop: 2 }}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "16px",
+          }}
         >
-          Add to Exhibition
-        </Button>
-        {/* Button to preview artwork in a new tab */}
-        <Button
-          onClick={() => window.open(artwork.url, "_blank")} // Opens the URL in a new tab
-          variant="outlined"
-          color="secondary"
-          sx={{ marginTop: 2 }}
-        >
-          Preview
-        </Button>
+          <Button
+            onClick={handleAddToExhibition}
+            variant="contained"
+            color="primary"
+            sx={{
+              backgroundColor: "#6d597a",
+            }}
+          >
+            Add to Exhibition
+          </Button>
+          <Button
+            onClick={() => window.open(artwork.url, "_blank")}
+            variant="outlined"
+            color="primary"
+            sx={{ color: "#6d597a" }}
+          >
+            Preview
+          </Button>
+        </div>
       </CardContent>
 
       {/* Snackbar for displaying messages */}

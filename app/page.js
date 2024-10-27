@@ -103,23 +103,32 @@ export default function Page() {
           handleFilterSortChange={handleFilterSortChange}
         />
       </Container>
-      {loading ? ( // Conditional rendering based on loading state
-        <LoadingSpinner /> // Show loading spinner
-      ) : error ? ( // Check for error
-        <Typography variant="h6" color="error">
-          {error} 
-        </Typography>
-      ) : (
-        <ArtworksGrid
-          artworks={artworks}
-          selectedArtworks={selectedArtworks}
-          setSelectedArtworks={setSelectedArtworks}
-          handleSelectArtwork={handleSelectArtwork}
-          setSnackbarMessage={setSnackbarMessage}
-          setShowSnackbar={setShowSnackbar}
-          introMessage={introMessage}
-        />
-      )}
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {loading ? ( // Conditional rendering based on loading state
+          <LoadingSpinner /> // Show loading spinner
+        ) : error ? ( // Check for error
+          <Typography variant="h6" color="error">
+            {error}
+          </Typography>
+        ) : (
+          <ArtworksGrid
+            artworks={artworks}
+            selectedArtworks={selectedArtworks}
+            setSelectedArtworks={setSelectedArtworks}
+            handleSelectArtwork={handleSelectArtwork}
+            setSnackbarMessage={setSnackbarMessage}
+            setShowSnackbar={setShowSnackbar}
+            introMessage={introMessage}
+          />
+        )}
+      </Container>
       {selectedArtworks.length > 0 && ( // Display exhibition if there are selected artworks
         <div id="yourExhibition" style={{ marginTop: "30px" }}>
           <Typography variant="h4" gutterBottom>

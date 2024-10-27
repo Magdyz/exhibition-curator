@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-} from "@mui/material";
+import { StyledButton } from "./StyledComponents";
+import { Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 function FilterBar({
   filter,
@@ -57,13 +51,9 @@ function FilterBar({
 
       {/* Apply Filter and Sort Button */}
       <Grid item xs={12}>
-        <Button
-          variant="contained"
-          onClick={handleFilterSortChange}
-          style={{ width: "100%" }}
-        >
-          Apply Filter and Sort
-        </Button>
+        <StyledButton onClick={handleFilterSortChange} variant="contained">
+          APPLY FILTER AND SORT
+        </StyledButton>
       </Grid>
     </Grid>
   );

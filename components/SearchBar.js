@@ -1,8 +1,9 @@
 "use client";
 
 const { useState } = require("react");
-const { TextField, Button } = require("@mui/material");
+const { TextField } = require("@mui/material");
 const { styled } = require("@mui/system");
+import { StyledButton } from "./StyledComponents";
 
 // Styling for the search bar container
 
@@ -43,14 +44,6 @@ const StyledTextField = styled(TextField)({
   },
 });
 
-// Styled Button
-const StyledButton = styled(Button)({
-  borderRadius: "24px",
-  textTransform: "none",
-  padding: "8px 16px",
-  width: "100%",
-});
-
 function SearchBar({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -74,8 +67,8 @@ function SearchBar({ onSearch }) {
         variant="outlined"
         size="medium"
       />
-      <StyledButton onClick={handleSearch} variant="contained" color="primary">
-        Search
+      <StyledButton onClick={handleSearch} variant="contained">
+        SEARCH
       </StyledButton>
     </SearchContainer>
   );

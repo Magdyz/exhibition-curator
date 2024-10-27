@@ -20,6 +20,16 @@ function ExhibitionTable({
   setShowSnackbar,
   setSelectedArtworks,
 }) {
+  // Function to clear all selected artworks from the exhibition
+  const handleClearExhibition = () => {
+    setSelectedArtworks([]); // Set selectedArtworks to an empty array, clearing all selections
+    setSnackbarMessage("Exhibition cleared!"); // Display a message to confirm clearing
+    setShowSnackbar(true); // Show snackbar notification
+
+    // Update session storage
+    sessionStorage.setItem("selectedArtworks", JSON.stringify([]));
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -83,6 +93,18 @@ function ExhibitionTable({
           ))}
         </TableBody>
       </Table>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={handleClearExhibition}
+        style={{
+          margin: "20px 0",
+          float: "right",
+          backgroundColor: "#15616d",
+        }}
+      >
+        Clear Exhibition
+      </Button>
     </TableContainer>
   );
 }
