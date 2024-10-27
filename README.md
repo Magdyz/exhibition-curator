@@ -44,7 +44,7 @@ cd exhibition-curator
 ### Install Dependencies
 
 ```npm install```
-# or
+or
 ```yarn install```
 
 ### Environment Variables
@@ -60,7 +60,7 @@ NEXT_PUBLIC_RIJKS_API_KEY=your_rijksmuseum_api_key
 Running Locally
 
 `npm run dev`
-# or
+or
 `yarn dev`
 
 Access the application at http://localhost:3000.
@@ -68,12 +68,12 @@ Access the application at http://localhost:3000.
 ### Building for Production
 
 `npm run build`
-# or
+or
 `yarn build`
 
 Running Tests
 
 `npm test`
-# or
+or
 `yarn test`
 
