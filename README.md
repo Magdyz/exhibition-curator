@@ -12,18 +12,18 @@ The (Your Exhibition) Virtual Exhibition Project is a web application that enabl
 
 
 ### Features
-**Search**: Fetch artworks from Harvard Art Museums and Rijksmuseum APIs
-**Filter & Sort**: Filter by source and sort artworks by title
-**Curate Exhibition**: Add and remove artworks from a personalized collection
-**Error Handling**: Uses Winston for clean error logging
-**Testing**: Unit tests with Jest
+- **Search**: Fetch artworks from Harvard Art Museums and Rijksmuseum APIs
+- **Filter & Sort**: Filter by source and sort artworks by title
+- **Curate Exhibition**: Add and remove artworks from a personalized collection
+- **Error Handling**: Uses Winston for clean error logging
+- **Testing**: Unit tests with Jest
 
 ### Tech Stack
-**Frontend**: Next.js, React.js, Material-UI
-**State Management**: React Hooks
-**Error Handling**: Winston
-**Testing**: Jest
-**Hosting**: Netlify
+- **Frontend**: Next.js, React.js, Material-UI
+- **State Management**: React Hooks
+- **Error Handling**: Winston
+- **Testing**: Jest
+- **Hosting**: Netlify
 
 ### APIs Used:
 1- Harvard Art Museums
