@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Virtual Exhibition Project is a web application that enables users to search, filter, and curate artworks from multiple museum APIs. Users can create personalized exhibitions with a responsive, mobile-friendly interface.
+The (Your Exhibition) Virtual Exhibition Project is a web application that enables users to search, filter, and curate artworks from multiple museum APIs. Users can create personalized exhibitions with a responsive, mobile-friendly interface.
 
 ### Features
 **Search**: Fetch artworks from Harvard Art Museums and Rijksmuseum APIs
@@ -16,10 +16,11 @@ The Virtual Exhibition Project is a web application that enables users to search
 **State Management**: React Hooks
 **Error Handling**: Winston
 **Testing**: Jest
+**Hosting**: Netlify
 
 ### APIs Used:
-Harvard Art Museums
-Rijksmuseum
+1- Harvard Art Museums
+2- Rijksmuseum
 
 ## Getting Started
 
