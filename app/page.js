@@ -1,8 +1,15 @@
-"use client";
+"use client"; // Client-side only
 
 import TopBanner from "@/components/TopBanner"; // Importing TopBanner component
 import { useState, useEffect } from "react"; // Importing React hooks
-import { Container, Typography } from "@mui/material"; // Importing Material UI components
+import {
+  Container,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Button,
+} from "@mui/material"; // Importing Material UI components
 import dynamic from "next/dynamic"; // For dynamic imports
 import {
   handleSearch,
@@ -33,6 +40,27 @@ export default function Page() {
   const [introMessage, setIntroMessage] = useState("");
   const [filter, setFilter] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+
+  // Show disclaimer modal only once per session
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+
+  // Check session storage to see if the disclaimer has been shown
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hasSeenDisclaimer = sessionStorage.getItem("hasSeenDisclaimer");
+      if (!hasSeenDisclaimer) {
+        setShowDisclaimer(true); // Show modal if not already shown in this session
+      }
+    }
+  }, []);
+
+  // Close the disclaimer modal and set session storage to indicate it's been shown
+  const handleCloseDisclaimer = () => {
+    setShowDisclaimer(false);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("hasSeenDisclaimer", "true"); // Store flag to prevent showing again in this session
+    }
+  };
 
   // Load selected artworks from sessionStorage on the client side
   useEffect(() => {
@@ -149,6 +177,29 @@ export default function Page() {
         setShowSnackbar={setShowSnackbar}
         snackbarMessage={snackbarMessage}
       />
+      {/* Disclaimer Modal */}
+      <Dialog open={showDisclaimer} onClose={handleCloseDisclaimer}>
+        <DialogTitle>Disclaimer</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            This webpage does not store any of your data in a database. All data
+            is temporarily stored only in your browser's cache to improve
+            usability and enhance your experience. The information you interact
+            with is only retained in your browser during your session and is not
+            stored on external servers.
+            <br />
+            <br />
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCloseDisclaimer}
+            sx={{ marginTop: "20px" }}
+          >
+            OK
+          </Button>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 }

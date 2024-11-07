@@ -1,4 +1,4 @@
-// Using Winston library in logger to log errors 
+// Using Winston library in logger to log errors
 const logger =
   typeof window === "undefined" ? require("@/utils/logger").default : null;
 
@@ -7,7 +7,7 @@ export const getHarvardArt = async (query) => {
   const apiKey = process.env.NEXT_PUBLIC_HARVARD_API_KEY;
   try {
     const res = await fetch(
-      `https://api.harvardartmuseums.org/object?apikey=${apiKey}&q=${query}`
+      `https://api.harvardartmuseums.org/object?apikey=${apiKey}&q=${query}&size=50`
     );
 
     // Handle error status codes
@@ -33,6 +33,11 @@ export const getHarvardArt = async (query) => {
       image:
         art.primaryimageurl ||
         "https://harvardartmuseums.org/assets/images/no_image.png",
+      description: art.description,
+      medium: art.medium,
+      dimensions: art.dimensions,
+      date: art.dated,
+      culture: art.culture,
       url: art.url,
       source: "Harvard",
     }));
@@ -52,7 +57,7 @@ export const getRijksmuseumArt = async (query) => {
   const apiKey = process.env.NEXT_PUBLIC_RIJKS_API_KEY;
   try {
     const res = await fetch(
-      `https://www.rijksmuseum.nl/api/en/collection?key=${apiKey}&q=${query}&imgonly=true`
+      `https://www.rijksmuseum.nl/api/en/collection?key=${apiKey}&q=${query}&imgonly=true&ps=50`
     );
 
     // Handle specific error status codes
@@ -69,12 +74,15 @@ export const getRijksmuseumArt = async (query) => {
     }
 
     return data.artObjects.map((artObject) => ({
-      id: artObject.objectNumber,
       title: artObject.title,
       artist: artObject.principalOrFirstMaker,
       image: artObject.webImage?.url || "",
-      source: "Rijksmuseum",
+      description: artObject.longTitle,
+      date: artObject.dating?.year,
+      dimensions: `${artObject.webImage?.width} x ${artObject.webImage?.height}px`,
+      culture: artObject.productionPlaces?.join(", ") || "Unknown",
       url: `https://www.rijksmuseum.nl/en/collection/${artObject.objectNumber}`,
+      source: "Rijksmuseum",
     }));
   } catch (error) {
     logger.error("Error fetching Harvard Artworks:", {

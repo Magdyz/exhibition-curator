@@ -8,14 +8,20 @@ const {
   Button,
   Snackbar,
   Alert,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
 } = require("@mui/material");
 const CheckCircleIcon = require("@mui/icons-material/CheckCircle").default;
+import CloseIcon from "@mui/icons-material/Close";
 const { useState } = require("react");
 
 // ArtCard component to display individual artwork details
 function ArtCard({ artwork, onSelect, selectedArtworks }) {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleAddToExhibition = () => {
     try {
@@ -31,6 +37,17 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
     setSnackbarOpen(true);
   };
 
+  // Open the modal to display detailed artwork information
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  // Close the modal
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  // Close the snackbar
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -77,12 +94,9 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
           >
             Add to Exhibition
           </Button>
-          <Button
-            onClick={() => window.open(artwork.url, "_blank")}
-            variant="outlined"
-            color="primary"
-            sx={{ color: "#6d597a" }}
-          >
+
+          {/* Preview Button - Opens Modal */}
+          <Button onClick={handleOpenModal} variant="outlined" color="primary">
             Preview
           </Button>
         </div>
@@ -107,6 +121,53 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      {/* Modal for detailed artwork information */}
+      <Dialog
+        open={modalOpen}
+        onClose={handleCloseModal}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>
+          {artwork.title}
+          {/* Close Button in Modal */}
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseModal}
+            style={{ position: "absolute", right: 8, top: 8 }}
+          >
+            <CloseIcon />
+          </IconButton>
+          {artwork.image ? (
+            <CardMedia
+              component="img"
+              height="200"
+              image={artwork.image}
+              alt={artwork.title}
+            />
+          ) : (
+            <CardMedia
+              component="img"
+              height="200"
+              image="https://harvardartmuseums.org/assets/images/no_image.png" // Placeholder image if no image is available
+              alt="No Image Available"
+            />
+          )}
+        </DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="h6">Artist: {artwork.artist}</Typography>
+          <Typography variant="body2">
+            {/* Add other artwork details here if available from API */}
+            Description: {artwork.description || "No description available"}
+          </Typography>
+          <Typography variant="body2">
+            Date: {artwork.date || "Unknown"}
+          </Typography>
+          <Typography variant="body2">
+            Dimensions: {artwork.dimensions || "Unknown"}
+          </Typography>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }
