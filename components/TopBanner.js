@@ -1,3 +1,5 @@
+"use client"; // Add this line
+
 import { useEffect, useState } from "react";
 import {
   AppBar,
@@ -9,9 +11,11 @@ import {
   Alert,
 } from "@mui/material";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"; 
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useRouter } from "next/navigation"; // Import router from next/navigation
 
 export default function TopBanner({ selectedArtworks }) {
+  const router = useRouter(); // Initialize router
   const [artworkCount, setArtworkCount] = useState(0);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -21,15 +25,13 @@ export default function TopBanner({ selectedArtworks }) {
     setArtworkCount(selectedArtworks.length);
   }, [selectedArtworks]);
 
-  // Scroll to 'Your Exhibition' section on basket click
+  // Navigate to 'Your Exhibition' page on basket click
   const handleBasketClick = () => {
     if (artworkCount === 0) {
       setSnackbarMessage("Start Adding to Your Exhibition");
       setSnackbarOpen(true);
     } else {
-      document
-        .getElementById("yourExhibition")
-        .scrollIntoView({ behavior: "smooth" });
+      router.push("/yourExhibition"); // Navigate to the new page
     }
   };
 

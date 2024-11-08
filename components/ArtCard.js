@@ -144,6 +144,11 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
               height="200"
               image={artwork.image}
               alt={artwork.title}
+              style={{
+                width: "100%",
+                height: "200px",
+                objectFit: "contain",
+              }}
             />
           ) : (
             <CardMedia
@@ -151,6 +156,11 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
               height="200"
               image="https://harvardartmuseums.org/assets/images/no_image.png" // Placeholder image if no image is available
               alt="No Image Available"
+              style={{
+                width: "100%",
+                height: "200px",
+                objectFit: "contain",
+              }}
             />
           )}
         </DialogTitle>

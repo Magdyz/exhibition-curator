@@ -157,21 +157,6 @@ export default function Page() {
           />
         )}
       </Container>
-      {selectedArtworks.length > 0 && ( // Display exhibition if there are selected artworks
-        <div id="yourExhibition" style={{ marginTop: "30px" }}>
-          <Typography variant="h4" gutterBottom>
-            Your Exhibition
-          </Typography>
-
-          <ExhibitionTable
-            selectedArtworks={selectedArtworks}
-            handleRemoveArtwork={handleRemoveArtwork}
-            setSnackbarMessage={setSnackbarMessage}
-            setShowSnackbar={setShowSnackbar}
-            setSelectedArtworks={setSelectedArtworks}
-          />
-        </div>
-      )}
       <SnackbarNotification
         showSnackbar={showSnackbar}
         setShowSnackbar={setShowSnackbar}
@@ -184,9 +169,7 @@ export default function Page() {
           <Typography variant="body1">
             This webpage does not store any of your data in a database. All data
             is temporarily stored only in your browser's cache to improve
-            usability and enhance your experience. The information you interact
-            with is only retained in your browser during your session and is not
-            stored on external servers.
+            usability and enhance your experience. 
             <br />
             <br />
           </Typography>
