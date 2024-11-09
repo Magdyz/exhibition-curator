@@ -8,18 +8,20 @@ The (Your Exhibition) Virtual Exhibition Project is a web application that enabl
 
 [Your Exhibition Website](https://yourexhibition.netlify.app)
 
-![Your Exhibition Website Preview](https://github.com/user-attachments/assets/6ee91997-cd54-433a-a1eb-9d9276017705)
+![Your Exhibition Website Preview](https://github.com/user-attachments/assets/3265abd6-a441-4b9d-8660-0452b080ef81)
 
 
 ### Features
-- **Search**: Fetch artworks from Harvard Art Museums and Rijksmuseum APIs
-- **Filter & Sort**: Filter by source and sort artworks by title
-- **Curate Exhibition**: Add and remove artworks from a personalized collection
-- **Error Handling**: Uses Winston for clean error logging
-- **Testing**: Unit tests with Jest
+- **Search and Filter**: Fetch artworks using the Harvard Art Museums and Rijksmuseum APIs, with options to filter by museum and sort by title.
+- **Curate Exhibition**: Add and remove artworks to create a customized exhibition. Selected artworks are displayed in a persistent TopBanner component.
+- **Error Handling**: Includes robust error handling with Winston for clean logging and user-friendly error messages.
+- **User Session Management**: Users are informed that selected artworks is stored in session storage for best performance.
+- **Interactive Modals**: Clicking on "Preview" opens a modal displaying detailed artwork information from the API.
+- **Notifications**: Integrated snackbar notifications display status messages for user actions.
+- **Testing**: Unit tests are implemented using Jest to ensure reliability and performance.
 
 ### Tech Stack
-- **Frontend**: Next.js, React.js, Material-UI
+- **Frontend**: Next.js, React.js, Material-UI for styling
 - **State Management**: React Hooks
 - **Error Handling**: Winston
 - **Testing**: Jest
@@ -33,9 +35,10 @@ The (Your Exhibition) Virtual Exhibition Project is a web application that enabl
 
 ### Prerequisites
 
-Node.js (version 14+)
+Node.js (version 20.10.0 or later)
 npm or yarn
-Clone the Repository
+
+### Clone the Repository
 
 ```
 git clone https://github.com/Magdyz/exhibition-curator.git
