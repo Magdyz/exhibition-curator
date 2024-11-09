@@ -32,7 +32,12 @@ export default function YourExhibitionPage() {
   }, [selectedArtworks]);
 
   return (
-    <Container>
+    <Container
+      sx={{
+        paddingTop: { xs: "64px", sm: "72px" },
+        backgroundColor: "#ffffff",
+      }}
+    >
       <TopBanner selectedArtworks={selectedArtworks} />{" "}
       <div id="yourExhibition" style={{ marginTop: "30px" }}>
         <Typography variant="h4" gutterBottom>
