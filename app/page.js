@@ -14,11 +14,9 @@ import dynamic from "next/dynamic"; // For dynamic imports
 import {
   handleSearch,
   handleSelectArtwork,
-  handleRemoveArtwork,
   handleFilterAndSort,
 } from "@/controllers/exhibitionController"; // Importing controller functions
 import FilterBar from "@/components/FilterBar"; // Importing FilterBar component
-import ExhibitionTable from "@/components/ExhibitionTable"; // Importing ExhibitionTable component
 import LoadingSpinner from "@/components/LoadingSpinner"; // Importing LoadingSpinner component
 import ArtworksGrid from "@/components/ArtworksGrid"; // Importing ArtworksGrid component
 import SnackbarNotification from "@/components/SnackbarNotification"; // Importing SnackbarNotification component

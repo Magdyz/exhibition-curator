@@ -1,6 +1,5 @@
 import React from "react";
-import { StyledButton } from "./StyledComponents"; // Styled button imported to match SearchBar style
-import { Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { styled } from "@mui/system";
 
 // Align filter and sort sections with SearchBar's look and feel
@@ -11,7 +10,7 @@ const FilterContainer = styled("div")({
   flexDirection: "column",
   gap: "10px",
   maxWidth: "600px",
-  width: "90%", // Same width as SearchBar container
+  width: "90%", 
   margin: "10px auto",
 });
 
@@ -19,7 +18,7 @@ const StyledFormControl = styled(FormControl)({
   width: "100%",
   backgroundColor: "#ffffff",
   "& .MuiOutlinedInput-root": {
-    borderRadius: "24px", // Match rounded style of SearchBar
+    borderRadius: "24px", 
     "& fieldset": {
       borderColor: "#ccc",
     },
@@ -43,7 +42,7 @@ function FilterBar({
 }) {
   return (
     <FilterContainer>
-      {/* Filter by Museum with same style as SearchBar */}
+      {/* Filter by Museum name */}
       <StyledFormControl variant="outlined">
         <InputLabel>Filter by Museum</InputLabel>
         <Select

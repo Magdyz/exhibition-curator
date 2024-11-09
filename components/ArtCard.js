@@ -12,7 +12,7 @@ const {
   DialogContent,
   DialogTitle,
   IconButton,
-  Skeleton, // 1. Import Skeleton from @mui/material
+  Skeleton, // Import Skeleton from @mui/material
 } = require("@mui/material");
 const CheckCircleIcon = require("@mui/icons-material/CheckCircle").default;
 import CloseIcon from "@mui/icons-material/Close";
@@ -23,9 +23,9 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false); // 2. Track image load state
+  const [imageLoaded, setImageLoaded] = useState(false); // Track image load state
   const placeholderImage =
-    "https://harvardartmuseums.org/assets/images/no_image.png"; // 2. Placeholder image URL
+    "https://harvardartmuseums.org/assets/images/no_image.png"; // Placeholder image URL
 
   const handleAddToExhibition = () => {
     try {
@@ -63,7 +63,7 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
         <Skeleton variant="rectangular" height={200} width="100%" />
       )}
 
-      {/* 3. CardMedia image with onLoad event */}
+      {/* CardMedia image with onLoad event */}
       <CardMedia
         component="img"
         height="200"
@@ -78,7 +78,7 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
           objectFit: "contain",
           display: imageLoaded ? "block" : "none", // Hide until loaded
         }}
-        onLoad={() => setImageLoaded(true)} // 4. Set imageLoaded to true when image loads
+        onLoad={() => setImageLoaded(true)} // Set imageLoaded to true when image loads
         onError={(e) => {
           e.target.onerror = null; // Prevents infinite loop if placeholder fails
           e.target.src = placeholderImage; // Replace with placeholder on error

@@ -72,11 +72,11 @@ function ExhibitionTable({
               <TableCell>
                 <Grid container alignItems="center">
                   <Grid item>
-                    {/* Enlarged Avatar with better spacing */}
+                    {/* Styled Avatar */}
                     <Avatar
                       alt={artwork.title}
                       src={artwork.image}
-                      style={{ width: 50, height: 50, marginRight: 15 }} // Enlarged Avatar
+                      style={{ width: 50, height: 50, marginRight: 15 }}
                     />
                   </Grid>
                   <Grid item>{artwork.title}</Grid>
@@ -84,13 +84,13 @@ function ExhibitionTable({
               </TableCell>
 
               <TableCell align="center">
-                {/* "More Info" Button with modal functionality */}
+                {/* "Preview" Button */}
                 <Button
                   onClick={() => handleOpenModal(artwork)} // Opens the modal with artwork details
                   variant="outlined"
                   color="primary"
                   style={{
-                    marginRight: "15px", // Space between buttons
+                    marginRight: "15px", 
                     textTransform: "none",
                     borderRadius: "20px",
                     padding: "5px 15px",
@@ -121,7 +121,7 @@ function ExhibitionTable({
         </TableBody>
       </Table>
 
-      {/* Clear Exhibition Button with custom styling */}
+      {/* Clear Exhibition Button */}
       <Button
         variant="contained"
         color="secondary"
@@ -136,7 +136,6 @@ function ExhibitionTable({
       </Button>
 
       {/* Modal for displaying more information about the artwork */}
-      {/* Modal for displaying more information about the artwork */}
       <Dialog
         open={modalOpen}
         onClose={handleCloseModal}
@@ -144,7 +143,7 @@ function ExhibitionTable({
         maxWidth="sm"
       >
         <DialogTitle>
-          {currentArtwork?.title} {/* Displaying artwork title in the modal */}
+          {currentArtwork?.title} 
           <IconButton
             aria-label="close"
             onClick={handleCloseModal}
