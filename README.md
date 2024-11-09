@@ -8,7 +8,7 @@ The (Your Exhibition) Virtual Exhibition Project is a web application that enabl
 
 [Your Exhibition Website](https://yourexhibition.netlify.app)
 
-<img src="https://github.com/user-attachments/assets/3265abd6-a441-4b9d-8660-0452b080ef81" alt="Your Exhibition Website Preview" width="600">
+<img src="https://github.com/user-attachments/assets/4c8f44b8-f563-4631-9a25-b0d1a7139c85" alt="Your Exhibition Website Preview" width="600">
 
 ### Features
 - **Search and Filter**: Fetch artworks using the Harvard Art Museums and Rijksmuseum APIs, with options to filter by museum and sort by title.
