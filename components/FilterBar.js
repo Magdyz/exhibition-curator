@@ -36,19 +36,60 @@ function FilterBar({
       </Grid>
 
       {/* Sort by Name */}
-      <Grid item xs={12} sm={6}>
-        <FormControl fullWidth>
-          <InputLabel>Sort by Name</InputLabel>
-          <Select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            label="Sort by Name"
-            style={{ backgroundColor: "white" }}
+      <Grid
+        container
+        spacing={1}
+        style={{ margin: "20px 0", alignItems: "center" }}
+      >
+        {/* Filter by Source */}
+        <Grid item xs={12} sm={5}>
+          <FormControl fullWidth>
+            <InputLabel>Filter by Museum</InputLabel>
+            <Select
+              value={filter}
+              onChange={(e) => {
+                setFilter(e.target.value);
+                if (e.target.value === "") {
+                  setArtworks(searchResults);
+                }
+              }}
+              label="Filter by Museum"
+              style={{ backgroundColor: "white" }}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="harvard">Harvard</MenuItem>
+              <MenuItem value="rijksmuseum">Rijksmuseum</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+
+        {/* Sort by Name */}
+        <Grid item xs={12} sm={5}>
+          <FormControl fullWidth>
+            <InputLabel>Sort by Name</InputLabel>
+            <Select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              label="Sort by Name"
+              style={{ backgroundColor: "white" }}
+            >
+              <MenuItem value="asc">Ascending (A-Z)</MenuItem>
+              <MenuItem value="desc">Descending (Z-A)</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+
+        {/* Apply Filter and Sort Button */}
+        <Grid item xs={12} sm={2} style={{ textAlign: "center" }}>
+          <StyledButton
+            onClick={handleFilterSortChange}
+            variant="contained"
+            fullWidth
+            style={{ maxWidth: "100%" }}
           >
-            <MenuItem value="asc">Ascending (A-Z)</MenuItem>
-            <MenuItem value="desc">Descending (Z-A)</MenuItem>
-          </Select>
-        </FormControl>
+            APPLY
+          </StyledButton>
+        </Grid>
       </Grid>
 
       {/* Apply Filter and Sort Button */}

@@ -107,7 +107,7 @@ export default function Page() {
   }, [filter, sortOrder, searchResults]);
 
   return (
-    <Container>
+    <Container sx={{ paddingTop: { xs: "64px", sm: "72px" } }}>
       <TopBanner selectedArtworks={selectedArtworks} />{" "}
       {/* Display top banner */}
       <Container
@@ -169,7 +169,7 @@ export default function Page() {
           <Typography variant="body1">
             This webpage does not store any of your data in a database. All data
             is temporarily stored only in your browser's cache to improve
-            usability and enhance your experience. 
+            usability and enhance your experience.
             <br />
             <br />
           </Typography>
