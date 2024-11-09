@@ -51,8 +51,24 @@ export default function TopBanner({ selectedArtworks }) {
       }}
     >
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <a href="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Typography variant="h6" sx={{ marginLeft: 1 }}>
+        <a
+          href="/"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              marginLeft: 1,
+              "&:hover": {
+                color: "#bb86fc", // Change color on hover
+              },
+            }}
+          >
             Your Exhibition
           </Typography>
         </a>

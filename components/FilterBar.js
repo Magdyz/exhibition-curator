@@ -74,11 +74,6 @@ function FilterBar({
           <MenuItem value="desc">Descending (Z-A)</MenuItem>
         </Select>
       </StyledFormControl>
-
-      {/* Apply Filter and Sort Button */}
-      <StyledButton onClick={handleFilterSortChange} variant="contained">
-        APPLY FILTER AND SORT
-      </StyledButton>
     </FilterContainer>
   );
 }

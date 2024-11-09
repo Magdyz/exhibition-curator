@@ -12,6 +12,7 @@ const {
   DialogContent,
   DialogTitle,
   IconButton,
+  Skeleton, // 1. Import Skeleton from @mui/material
 } = require("@mui/material");
 const CheckCircleIcon = require("@mui/icons-material/CheckCircle").default;
 import CloseIcon from "@mui/icons-material/Close";
@@ -22,6 +23,9 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false); // 2. Track image load state
+  const placeholderImage =
+    "https://harvardartmuseums.org/assets/images/no_image.png"; // 2. Placeholder image URL
 
   const handleAddToExhibition = () => {
     try {
@@ -54,21 +58,33 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
 
   return (
     <Card>
-      {artwork.image ? (
-        <CardMedia
-          component="img"
-          height="200"
-          image={artwork.image}
-          alt={artwork.title}
-        />
-      ) : (
-        <CardMedia
-          component="img"
-          height="200"
-          image="https://harvardartmuseums.org/assets/images/no_image.png" // Placeholder image if no image is available
-          alt="No Image Available"
-        />
+      {/* Show Skeleton until image is fully loaded */}
+      {!imageLoaded && (
+        <Skeleton variant="rectangular" height={200} width="100%" />
       )}
+
+      {/* 3. CardMedia image with onLoad event */}
+      <CardMedia
+        component="img"
+        height="200"
+        image={
+          artwork.image ||
+          "https://harvardartmuseums.org/assets/images/no_image.png"
+        }
+        alt={artwork.title || "No Image Available"}
+        style={{
+          width: "100%",
+          height: "200px",
+          objectFit: "contain",
+          display: imageLoaded ? "block" : "none", // Hide until loaded
+        }}
+        onLoad={() => setImageLoaded(true)} // 4. Set imageLoaded to true when image loads
+        onError={(e) => {
+          e.target.onerror = null; // Prevents infinite loop if placeholder fails
+          e.target.src = placeholderImage; // Replace with placeholder on error
+        }}
+      />
+
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
           {artwork.title}
@@ -138,36 +154,23 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
           >
             <CloseIcon />
           </IconButton>
-          {artwork.image ? (
-            <CardMedia
-              component="img"
-              height="200"
-              image={artwork.image}
-              alt={artwork.title}
-              style={{
-                width: "100%",
-                height: "200px",
-                objectFit: "contain",
-              }}
-            />
-          ) : (
-            <CardMedia
-              component="img"
-              height="200"
-              image="https://harvardartmuseums.org/assets/images/no_image.png" // Placeholder image if no image is available
-              alt="No Image Available"
-              style={{
-                width: "100%",
-                height: "200px",
-                objectFit: "contain",
-              }}
-            />
-          )}
         </DialogTitle>
         <DialogContent dividers>
+          {/* 4. CardMedia in modal with onError for placeholder if image fails */}
+          <CardMedia
+            component="img"
+            height="200"
+            image={artwork.image || placeholderImage}
+            alt={artwork.title || "No Image Available"}
+            loading="lazy"
+            style={{ width: "100%", height: "200px", objectFit: "contain" }}
+            onError={(e) => {
+              e.target.onerror = null; // Prevent infinite error loop
+              e.target.src = placeholderImage;
+            }}
+          />
           <Typography variant="h6">Artist: {artwork.artist}</Typography>
           <Typography variant="body2">
-            {/* Add other artwork details here if available from API */}
             Description: {artwork.description || "No description available"}
           </Typography>
           <Typography variant="body2">
