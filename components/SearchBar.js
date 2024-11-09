@@ -66,6 +66,7 @@ function SearchBar({ onSearch }) {
         placeholder="Search Artworks"
         variant="outlined"
         size="medium"
+        aria-label="Artwork search input"
       />
       <StyledButton
         onClick={handleSearch}

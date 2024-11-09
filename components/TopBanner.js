@@ -59,6 +59,7 @@ export default function TopBanner({ selectedArtworks }) {
             fontWeight: "bold",
             cursor: "pointer",
           }}
+          aria-label="Navigate to Home Page"
         >
           <Typography
             variant="h6"
