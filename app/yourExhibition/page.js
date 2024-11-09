@@ -23,11 +23,17 @@ export default function YourExhibitionPage() {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && selectedArtworks.length > 0) {
-      sessionStorage.setItem(
-        "selectedArtworks",
-        JSON.stringify(selectedArtworks)
-      );
+    if (typeof window !== "undefined") {
+      if (selectedArtworks.length > 0) {
+        // Save artworks to sessionStorage if there are any
+        sessionStorage.setItem(
+          "selectedArtworks",
+          JSON.stringify(selectedArtworks)
+        );
+      } else {
+        // Clear sessionStorage if no artworks are selected
+        sessionStorage.removeItem("selectedArtworks");
+      }
     }
   }, [selectedArtworks]);
 
