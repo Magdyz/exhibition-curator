@@ -76,6 +76,7 @@ export default function TopBanner({ selectedArtworks }) {
         <IconButton
           color="inherit"
           onClick={handleBasketClick}
+          aria-label="View Your Exhibition"
           sx={{
             "&:hover": {
               backgroundColor: "#6d597a",

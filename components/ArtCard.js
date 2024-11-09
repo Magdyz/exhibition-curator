@@ -104,6 +104,7 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
             onClick={handleAddToExhibition}
             variant="contained"
             color="primary"
+            aria-label="Add artwork to exhibition"
             sx={{
               backgroundColor: "#6d597a",
             }}
@@ -112,7 +113,12 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
           </Button>
 
           {/* Preview Button - Opens Modal */}
-          <Button onClick={handleOpenModal} variant="outlined" color="primary">
+          <Button
+            onClick={handleOpenModal}
+            variant="outlined"
+            color="primary"
+            aria-label="Preview artwork details"
+          >
             Preview
           </Button>
         </div>
@@ -148,7 +154,7 @@ function ArtCard({ artwork, onSelect, selectedArtworks }) {
           {artwork.title}
           {/* Close Button in Modal */}
           <IconButton
-            aria-label="close"
+            aria-label="Close preview"
             onClick={handleCloseModal}
             style={{ position: "absolute", right: 8, top: 8 }}
           >

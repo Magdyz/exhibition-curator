@@ -67,7 +67,11 @@ function SearchBar({ onSearch }) {
         variant="outlined"
         size="medium"
       />
-      <StyledButton onClick={handleSearch} variant="contained">
+      <StyledButton
+        onClick={handleSearch}
+        variant="contained"
+        aria-label="Search Artworks"
+      >
         SEARCH
       </StyledButton>
     </SearchContainer>
